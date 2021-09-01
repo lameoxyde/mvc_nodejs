@@ -1,7 +1,7 @@
 <div id="drop-area">
   <form class="my-form">
     <p>Upload multiple files with the file dialog or by dragging and dropping images onto the dashed region</p>
-    <input type="file" id="fileElem" multiple accept=".xlsx, .xls" onchange="handleFiles(this.files)">
+    <input type="file" id="fileElem" multiple accept=".xlsx, .xls, .csv" onchange="handleFiles(this.files)">
     <label class="button" for="fileElem">Select some files</label>
   </form>
 </div>
@@ -66,4 +66,10 @@ function handleFiles(files) {
   files = [...files]
   files.forEach(uploadFile)
 }
+$(document).keyup(function(e) {
+     if (e.key === "Escape") { // escape key maps to keycode `27`
+        $("#modal").removeClass('show')
+      $("#modal").addClass('hide')
+    }
+});
 </script>

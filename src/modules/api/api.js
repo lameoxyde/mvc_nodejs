@@ -1,6 +1,6 @@
 const XLSX = require('xlsx')
 const path = require('path')
-const fs = require('fs')
+
 const mongo = require('mongodb')
 
 const url = 'mongodb://localhost:27017/'

@@ -2,8 +2,12 @@
 <h1>VOI</h1>
 {% block content %}
 <div id="liste">
-<button id="addexcel">Ajout excel</button>
-<table id="example" class="display" style="width:100%">
+<button id="addexcel"  class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+<i class="material-icons">add</i>
+</button>
+<label>AJOUTER</label>
+
+<table id="example" class="display " style="width:100%">
         <thead>
             <tr>
                 
@@ -53,9 +57,9 @@ $(document).ready(function() {
       }
     });
 
-    var table = $('#example').DataTable( {
+var table = $('#example').DataTable( {
         "ajax": {
-        url:'http://localhost:8080/api/records/voi',
+        url:'http://localhost:8000/api/records/voi',
         dataSrc: ''},
         dom: 'Bfrtip',
         buttons: [
@@ -69,6 +73,8 @@ $(document).ready(function() {
         ]
 
     } );
+
+    
     var marker = {}
     table.on('click', 'td', function () {
       var table = $('#example').DataTable();

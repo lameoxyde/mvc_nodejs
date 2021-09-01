@@ -3,7 +3,7 @@ const express = require("express"),
     Twig = require("twig")
 let app = express();
 //Port to listen on
-const PORT = 8080;
+const PORT = 8000;
 
 const path = require("path");
 
@@ -55,7 +55,8 @@ app.use('/css', express.static('public/css'));
 app.use('/js', express.static('public/js'));
 app.use('/js', express.static('public/img'));
 app.use('/css/images', express.static('public/css/img'));
-
+app.use('/images', express.static('public/css/img'))
+app.use('/material/', express.static('node_modules/material-design-lite/'));
 
 bootstrap(app, router);
 
