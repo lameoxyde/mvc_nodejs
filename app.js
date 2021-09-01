@@ -3,13 +3,17 @@ const express = require("express"),
     Twig = require("twig")
 let app = express();
 //Port to listen on
-const PORT = 8000;
+const PORT = 8080;
 
 const path = require("path");
 
 const bodyParser = require("body-parser");
 
+const fileUpload = require ('express-fileupload')
+
 const bootstrap = require("./src/boostrap");
+
+
 
 //Use a Custom Templating Engine
 // This section is optional and used to configure twig.
@@ -23,6 +27,7 @@ app.set("views", path.resolve("./src/views"));
 //Request Parsing
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(fileUpload());
 //Create Express Router
 const router = express.Router();
 
@@ -49,6 +54,7 @@ app.use(router);
 app.use('/css', express.static('public/css'));
 app.use('/js', express.static('public/js'));
 app.use('/js', express.static('public/img'));
+app.use('/css/images', express.static('public/css/img'));
 
 
 bootstrap(app, router);

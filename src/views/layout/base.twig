@@ -2,16 +2,30 @@
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="css/custom.css" />
+         <link rel="stylesheet" href="css/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="crossorigin=""/>
+          <script src="js/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+        <link rel="stylesheet" type="text/css" href="css/jquery.dataTables.min.css" />
         {% block head %}
-            <title>{% block title %}{% endblock %} - My Webpage</title>
+            <title>{% block title %}{% endblock %} - VOI</title>
         {% endblock %}
+        <script type="text/javascript" src="js/jquery-3.5.1.js"></script>
+	    <script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="js/pdfmake.min.js"></script>
+        <script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="js/buttons.html5.min.js"></script>
+        <script type="text/javascript" src="js/buttons.print.min.js"></script>
+        <script type="text/javascript" src="js/dataTables.buttons.min.js"></script>
+        <script type="text/javascript" src="js/jszip.min.js"></script>
+        <script type="text/javascript" src="js/buttons.html5.min.js"></script>        
+        <script type="text/javascript" src="js/vfs_fonts.js"></script>
+
     </head>
     <body>
         <div id="content">{% block content %}{% endblock %}</div>
         
         <div id="footer">
             {% block footer %}
-                &copy; Copyright 2011 by <a href="http://domain.invalid/">you</a>.
+                &copy; Copyright 2021 by <a href="http://domain.invalid/">you</a>.
             {% endblock %}
         </div>
     </body>

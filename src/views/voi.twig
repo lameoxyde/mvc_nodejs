@@ -1,0 +1,230 @@
+{% extends "./layout/base.twig" %}
+<h1>VOI</h1>
+{% block content %}
+<div id="liste">
+<table id="example" class="display" style="width:100%">
+        <thead>
+            <tr>
+                
+                <th>MMSI</th>
+                <th>POSITION</th>
+                <th>TYPE</th>
+                <th>OBSERVATIONS</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+               
+                <th>MMSI</th>
+                <th>POSITION</th>
+                <th>TYPE</th>
+                <th>OBSERVATIONS</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+
+  {% embed "./modules/dragAndDropImg.twig" %}  {% endembed %}
+
+ <div id="mapid"></div>
+
+<script>
+var mymap = L.map('mapid').setView([-18.777192499999998,46.85432800000001], 5);
+L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    maxZoom: 18,
+    id: 'mapbox/streets-v11',
+    tileSize: 512,
+    zoomOffset: -1,
+    accessToken: 'pk.eyJ1IjoibGFtZW94eWRlIiwiYSI6ImNqcXhsZGcxcjAzaHEzeG5yNXg5bWx1MzAifQ.kENjvA7eSh7h891AJaEf9A'
+}).addTo(mymap);
+$(document).ready(function() {
+    var table = $('#example').DataTable( {
+        "ajax": {
+        url:'http://localhost:8080/api/records/voi',
+        dataSrc: ''},
+        dom: 'Bfrtip',
+        buttons: [
+            'excel'
+        ],
+        columns:[
+            {"data":"MMSI"},
+            {"data":"POSITION"},
+            {"data":"TYPE"},
+            {"data":"OBSERVATIONS"},
+        ]
+
+    } );
+    table.on('click', 'td', function () {
+      var table = $('#example').DataTable();
+      var cell = table.cell( this ).data();          // returns correct cell data
+      console.log(cell);
+      var tr = $(this).closest('tr');
+      var row = table.row( tr ).data();           // returns undefined
+      console.log(row.POSITION.split(",")[0]);
+      
+      
+      var marker = L.marker([row.POSITION.split(",")[0],row.POSITION.split(",")[1]]).addTo(mymap);  
+      marker.bindPopup("<h2>"+row.TYPE+" ("+row.MMSI+")</h2><hr><p>"+row.OBSERVATIONS+"</p>").openPopup();
+      mymap.on('click', function () {
+         mymap.removeLayer(marker);
+        });
+    })
+} );
+var zee = [
+    {
+      "Lat": -25.760002031188414,
+      "Long": 40.26504772343549
+    },
+    {
+      "Lat": -27.68321568470055,
+      "Long": 41.67129772343549
+    },
+    {
+      "Lat": -28.805864380918567,
+      "Long": 43.82461803593549
+    },
+    {
+      "Lat": -28.921322497656522,
+      "Long": 45.93399303593549
+    },
+    {
+      "Lat": -28.22665920840602,
+      "Long": 48.52676647343549
+    },
+    {
+      "Lat": -27.019669731782162,
+      "Long": 50.19668834843549
+    },
+    {
+      "Lat": -25.164854069718633,
+      "Long": 50.94375866093549
+    },
+    {
+      "Lat": -23.321756052835497,
+      "Long": 51.47110241093549
+    },
+    {
+      "Lat": -22.512231054594032,
+      "Long": 51.82266491093549
+    },
+    {
+      "Lat": -21.04316196152431,
+      "Long": 51.91055553593549
+    },
+    {
+      "Lat": -19.973017222421433,
+      "Long": 52.17422741093549
+    },
+    {
+      "Lat": -18.64591087702136,
+      "Long": 52.87735241093549
+    },
+    {
+      "Lat": -17.518007766730147,
+      "Long": 52.43789928593549
+    },
+    {
+      "Lat": -15.876469739123097,
+      "Long": 52.52578991093549
+    },
+    {
+      "Lat": -14.604505771308743,
+      "Long": 52.65762584843549
+    },
+    {
+      "Lat": -12.725740180398894,
+      "Long": 53.40469616093549
+    },
+    {
+      "Lat": -11.400771040935036,
+      "Long": 50.35541997511416
+    },
+    {
+      "Lat": -10.321836032424512,
+      "Long": 49.52045903761416
+    },
+    {
+      "Lat": -11.012805516984864,
+      "Long": 48.55366216261416
+    },
+    {
+      "Lat": -12.175098080578525,
+      "Long": 47.93842778761416
+    },
+    {
+      "Lat": -12.690073714393224,
+      "Long": 47.27924810011416
+    },
+    {
+      "Lat": -12.775802924074512,
+      "Long": 46.75190435011416
+    },
+    {
+      "Lat": -13.674169531859183,
+      "Long": 46.40034185011416
+    },
+    {
+      "Lat": -14.441488622791905,
+      "Long": 45.38959966261416
+    },
+    {
+      "Lat": -14.356358841693044,
+      "Long": 43.58784185011416
+    },
+    {
+      "Lat": -14.441488622791905,
+      "Long": 42.92866216261416
+    },
+    {
+      "Lat": -15.363146,
+      "Long":  42.504803
+    },
+    {
+      "Lat": -16.756704,
+      "Long": 43.251874
+    },
+    {
+      "Lat": -17.638286,
+      "Long": 43.120038
+    },
+    {
+      "Lat": -19.263983,
+      "Long": 41.274335
+    },
+    {
+      "Lat": -19.442144030510914,
+      "Long": 41.61030278761416
+    },
+    {
+      "Lat": -20.885911605790238,
+      "Long": 41.43452153761416
+    },
+    {
+      "Lat": -23.167026988782627,
+      "Long": 41.78608403761416
+    },
+    {
+      "Lat": -23.852080039792984,
+      "Long": 41.47846685011416
+    },
+    {
+      "Lat": -25.171536358302212,
+      "Long": 40.77534185011416
+    }
+  ];
+function getEezPolygon(){  
+    var res = [];
+    for(var i=0;i<zee.length;i++){
+        let line = zee[i];
+        res[i] = [line.Lat,line.Long];
+    }
+    // console.log(res);
+    return res;
+}
+
+var polygon = L.polygon([getEezPolygon()]).addTo(mymap);
+
+</script>
+{% endblock %}

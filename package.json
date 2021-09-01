@@ -1,19 +1,24 @@
 {
   "name": "nodejs",
   "version": "1.0.0",
-  "description": "Nodejs Course Series ",
+  "description": "Nodejs MVC arch ",
   "main": "app.js",
   "scripts": {
     "start": "nodemon app.js"
   },
-  "author": "Islem Penywis",
+  "author": "Ainasafidy Roberto",
   "license": "MIT ",
   "dependencies": {
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "express-fileupload": "^1.2.1",
+    "mkdirp": "^1.0.4",
+    "mongodb": "^3.7.0",
     "node": "^11.0.0",
-    "twig": "^1.15.4"
+    "parse-kml": "^1.0.1",
+    "twig": "^1.15.4",
+    "xlsx": "^0.17.1"
   },
   "devDependencies": {
     "nodemon": "^1.18.6"
