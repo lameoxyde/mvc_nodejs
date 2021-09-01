@@ -55,6 +55,8 @@ function uploadFile(file) {
   })
   .then((e) => { /* Done. Inform the user */ 
     alert('File(s) uploaded : DONE...')
+    $("#modal").removeClass('show')
+    $("#modal").addClass('hide')
   })
   .catch((e) => { /* Error. Inform the user */ 
     alert('error :'+e)

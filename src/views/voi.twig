@@ -2,6 +2,7 @@
 <h1>VOI</h1>
 {% block content %}
 <div id="liste">
+<button id="addexcel">Ajout excel</button>
 <table id="example" class="display" style="width:100%">
         <thead>
             <tr>
@@ -24,11 +25,11 @@
     </table>
 </div>
 
-
-  {% embed "./modules/dragAndDropImg.twig" %}  {% endembed %}
-
  <div id="mapid"></div>
+<div id="modal" class="hide">
 
+{% embed "./modules/dragAndDropImg.twig" %}  {% endembed %}
+</div>
 <script>
 var mymap = L.map('mapid').setView([-18.777192499999998,46.85432800000001], 5);
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -40,6 +41,18 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
     accessToken: 'pk.eyJ1IjoibGFtZW94eWRlIiwiYSI6ImNqcXhsZGcxcjAzaHEzeG5yNXg5bWx1MzAifQ.kENjvA7eSh7h891AJaEf9A'
 }).addTo(mymap);
 $(document).ready(function() {
+
+    $('#addexcel').on('click',function(){
+      if($('#modal').hasClass('hide')){
+        $('#modal').addClass('show')
+        $('#modal').removeClass('hide')
+      }
+      else if($('#modal').hasClass('show')){
+        $('#modal').addClass('hide')
+        $('#modal').removeClass('show')
+      }
+    });
+
     var table = $('#example').DataTable( {
         "ajax": {
         url:'http://localhost:8080/api/records/voi',
@@ -56,6 +69,7 @@ $(document).ready(function() {
         ]
 
     } );
+    var marker = {}
     table.on('click', 'td', function () {
       var table = $('#example').DataTable();
       var cell = table.cell( this ).data();          // returns correct cell data
@@ -64,12 +78,14 @@ $(document).ready(function() {
       var row = table.row( tr ).data();           // returns undefined
       console.log(row.POSITION.split(",")[0]);
       
+      mymap.removeLayer(marker);
       
-      var marker = L.marker([row.POSITION.split(",")[0],row.POSITION.split(",")[1]]).addTo(mymap);  
+      marker = L.marker([row.POSITION.split(",")[0],row.POSITION.split(",")[1]]).addTo(mymap);
+      
       marker.bindPopup("<h2>"+row.TYPE+" ("+row.MMSI+")</h2><hr><p>"+row.OBSERVATIONS+"</p>").openPopup();
-      mymap.on('click', function () {
-         mymap.removeLayer(marker);
-        });
+     /** marker.on('click', function () {
+        
+        });**/
     })
 } );
 var zee = [
