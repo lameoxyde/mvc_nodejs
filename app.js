@@ -13,7 +13,9 @@ const fileUpload = require ('express-fileupload')
 
 const bootstrap = require("./src/boostrap");
 
+const cors = require('cors')
 
+app.use(cors())
 
 //Use a Custom Templating Engine
 // This section is optional and used to configure twig.
@@ -62,7 +64,7 @@ bootstrap(app, router);
 
 //Main Page (Home)
 router.get("/", (req, res, next) => {
-    return res.send("Hello There");
+    return res.send('<a href="http://10.202.46.21:8000/voi">Lien VOI</a>');
 });
 
 router.use((err, req, res, next) => {
@@ -71,8 +73,12 @@ router.use((err, req, res, next) => {
         return res.send(err.message);
     }
 });
-
+// app.use((req, res, next) => {
+//     ///redirect when 404
+//     return res.redirect('/voi');
+//     return next(err);
+//   });
 app.listen(PORT, err => {
     if (err) return console.log(`Cannot Listen on PORT: ${PORT}`);
-    console.log(`Server is Listening on: http://localhost:${PORT}/`);
+    console.log(`Server is Listening on: http://10.202.46.21:${PORT}/`);
 });

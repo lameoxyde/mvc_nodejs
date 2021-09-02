@@ -1,99 +1,35 @@
 {% extends "./layout/base.twig" %}
+
 <h1>VOI</h1>
+
 {% block content %}
+
 <div id="liste">
-<button id="addexcel"  class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
-<i class="material-icons">add</i>
-</button>
-<label>AJOUTER</label>
 
-<table id="example" class="display " style="width:100%">
-        <thead>
-            <tr>
-                
-                <th>MMSI</th>
-                <th>POSITION</th>
-                <th>TYPE</th>
-                <th>OBSERVATIONS</th>
-            </tr>
-        </thead>
-        <tfoot>
-            <tr>
-               
-                <th>MMSI</th>
-                <th>POSITION</th>
-                <th>TYPE</th>
-                <th>OBSERVATIONS</th>
-            </tr>
-        </tfoot>
-    </table>
+  <button id="addexcel"  class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+    <i class="material-icons">add</i>
+  </button><label style="margin-left:10px;">AJOUTER</label>
+
+  {% include "./modules/table.twig" with {'var':params,'url':urlGet} %}
+
+    <div id="mapid"></div>
+
+  {% include "./modules/dragAndDropImg.twig" with {'url':urlAdd} %}
+
 </div>
 
- <div id="mapid"></div>
-<div id="modal" class="hide">
 
-{% embed "./modules/dragAndDropImg.twig" %}  {% endembed %}
-</div>
 <script>
-var mymap = L.map('mapid').setView([-18.777192499999998,46.85432800000001], 5);
+var mymap = L.map('mapid').setView([-18.777192499999998,46.85432800000001], 3);
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    maxZoom: 18,
+    maxZoom: 15,
     id: 'mapbox/streets-v11',
     tileSize: 512,
     zoomOffset: -1,
     accessToken: 'pk.eyJ1IjoibGFtZW94eWRlIiwiYSI6ImNqcXhsZGcxcjAzaHEzeG5yNXg5bWx1MzAifQ.kENjvA7eSh7h891AJaEf9A'
 }).addTo(mymap);
-$(document).ready(function() {
 
-    $('#addexcel').on('click',function(){
-      if($('#modal').hasClass('hide')){
-        $('#modal').addClass('show')
-        $('#modal').removeClass('hide')
-      }
-      else if($('#modal').hasClass('show')){
-        $('#modal').addClass('hide')
-        $('#modal').removeClass('show')
-      }
-    });
-
-var table = $('#example').DataTable( {
-        "ajax": {
-        url:'http://localhost:8000/api/records/voi',
-        dataSrc: ''},
-        dom: 'Bfrtip',
-        buttons: [
-            'excel'
-        ],
-        columns:[
-            {"data":"MMSI"},
-            {"data":"POSITION"},
-            {"data":"TYPE"},
-            {"data":"OBSERVATIONS"},
-        ]
-
-    } );
-
-    
-    var marker = {}
-    table.on('click', 'td', function () {
-      var table = $('#example').DataTable();
-      var cell = table.cell( this ).data();          // returns correct cell data
-      console.log(cell);
-      var tr = $(this).closest('tr');
-      var row = table.row( tr ).data();           // returns undefined
-      console.log(row.POSITION.split(",")[0]);
-      
-      mymap.removeLayer(marker);
-      
-      marker = L.marker([row.POSITION.split(",")[0],row.POSITION.split(",")[1]]).addTo(mymap);
-      
-      marker.bindPopup("<h2>"+row.TYPE+" ("+row.MMSI+")</h2><hr><p>"+row.OBSERVATIONS+"</p>").openPopup();
-     /** marker.on('click', function () {
-        
-        });**/
-    })
-} );
 var zee = [
     {
       "Lat": -25.760002031188414,

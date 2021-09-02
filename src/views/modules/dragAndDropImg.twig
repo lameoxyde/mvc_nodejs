@@ -1,5 +1,7 @@
+<div id="modal" class="hide">
 <div id="drop-area">
   <form class="my-form">
+  
     <p>Upload multiple files with the file dialog or by dragging and dropping images onto the dashed region</p>
     <input type="file" id="fileElem" multiple accept=".xlsx, .xls, .csv" onchange="handleFiles(this.files)">
     <label class="button" for="fileElem">Select some files</label>
@@ -44,7 +46,7 @@ function handleDrop(e) {
 }
 
 function uploadFile(file) {
-  let url = 'http://localhost:8080/api/import/xlsx/test'
+  let url = '{{url}}'
   let formData = new FormData()
 
   formData.append('file', file)
@@ -54,7 +56,7 @@ function uploadFile(file) {
     body: formData
   })
   .then((e) => { /* Done. Inform the user */ 
-    alert('File(s) uploaded : DONE...')
+    
     $("#modal").removeClass('show')
     $("#modal").addClass('hide')
   })
@@ -72,4 +74,20 @@ $(document).keyup(function(e) {
       $("#modal").addClass('hide')
     }
 });
+$(document).ready(function() {
+
+    $('#addexcel').on('click',function(){
+      if($('#modal').hasClass('hide')){
+        $('#modal').addClass('show')
+        $('#modal').removeClass('hide')
+      }
+      else if($('#modal').hasClass('show')){
+        $('#modal').addClass('hide')
+        $('#modal').removeClass('show')
+      }
+    });
+
+    
+    
+} );
 </script>

@@ -40,7 +40,10 @@ module.exports={
                 process.nextTick(() => {
                     var hms = dt.getHours()+'h'+dt.getMinutes()+'m'+dt.getSeconds()+'s';
                     let file_path = cc+'/'+hms+' - '+file.name;
-                    //move file to directory
+                    console.log(file.name.split('.')[1])
+                    if(file.name.split('.')[1] == 'xlsx' || file.name.split('.')[1] == 'xls' || file.name.split('.')[1] == 'csv'){
+
+                    // move file to directory
                     file.mv(file_path,function(err){
                         if(err) {
                             res.send({error:'Cant move file'})
@@ -67,12 +70,21 @@ module.exports={
                                 // console.log('saved to database')
                             })
                         }
+                        console.log('File(s) uploaded : DONE...')
+                        
+
+
                     });
+
+                    }else{
+                        console.log('File(s) not uploaded : ERROR...')
+                    }
                     resolve();
                 })
             });
         }).then(() => {
             console.log('done');
+     
             res.send({success:true,n:xlfiles.length});
         });
             }

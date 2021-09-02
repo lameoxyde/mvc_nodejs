@@ -1,0 +1,76 @@
+<table id="example" class="display " style="width:100%">
+        <thead>
+            <tr>
+                {% for v in var %}
+                <th>{{v}}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+               {% for v in var %}
+                <th>{{v}}</th>
+                {% endfor %}
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<script>
+$(document).ready(function() {
+var vars = []
+{% for v in var %}
+  vars.push({"data":"{{v}}"})
+{% endfor %}
+
+var table = $('#example').DataTable( {
+        "ajax": {
+        url:'{{url}}',
+        dataSrc: ''},
+        search: {
+            return: true
+        },
+        
+        deferRender: true,
+        
+        scrollY:        400,
+        scrollCollapse: true,
+        dom: 'Bfrtip',
+        buttons: [
+            'excel'
+        ],
+        columns:vars
+
+    } );
+
+
+    
+    table.on('click', 'td', function () {
+      var table = $('#example').DataTable();
+      var cell = table.cell( this ).data();          // returns correct cell data
+      console.log(cell);
+      var tr = $(this).closest('tr');
+      var row = table.row( tr ).data();           // returns undefined
+      console.log(row.POSITION.split(",")[0]);
+
+    })
+
+    var marker = {}
+    table.on('click', 'td', function () {
+      var table = $('#example').DataTable();
+      var cell = table.cell( this ).data();          // returns correct cell data
+      console.log(cell);
+      var tr = $(this).closest('tr');
+      var row = table.row( tr ).data();           // returns undefined
+      console.log(row.POSITION.split(",")[0]);
+      
+      mymap.removeLayer(marker);      
+      marker = L.marker([row.POSITION.split(",")[0],row.POSITION.split(",")[1]]).addTo(mymap);
+      
+      marker.bindPopup("<b>"+row.TYPE+" ("+row.MMSI+")</b><hr><p style='font-size:11px;'>"+row.OBSERVATIONS+"</p>").openPopup();
+     /** marker.on('click', function () {
+        
+        });**/
+    })
+} );
+
+</script>
